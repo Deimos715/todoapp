@@ -1,0 +1,20 @@
+#backend
+# ignor folder
+todobackend/venv/
+todobackend/media/
+todobackend/staticfiles/
+todobackend/.idea/
+
+# __pycache__ ignor
+**/__pycache__/
+
+# ignor settings
+todobackend/local_settings.py
+
+# ignor log files
+**.log
+
+#frontend
+# ignor folder
+frontend/node_modules/
+frontend/dist/
