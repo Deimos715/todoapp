@@ -1,6 +1,6 @@
 // Header.js
 import React, { useState} from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Navbar";
@@ -14,15 +14,20 @@ const Header = () => {
 
     async function login(user = null){
         setUser(user);
-      }
+    }
     
-      async function logout(){
+    async function logout(){
         setUser(null);
-      }
+    }
     
-      async function signup(user = null){
+    async function signup(user = null){
         setUser(user);
-      }
+    }
+
+    // Установка пользователя для проверки
+    // React.useEffect(() => {
+    //     login("exampleUser");
+    // }, []);
 
     return (
         <div className="Header">
@@ -32,7 +37,7 @@ const Header = () => {
                     <Nav className="me-auto">
                         <Container>
                         <Link className="nav-link" to={"/todos"}>Todos</Link>
-                        {user ? (
+                        { user ? (
                             <Link className="nav-link">Logout ({user})</Link>
                         ) : (
                             <>
@@ -44,10 +49,7 @@ const Header = () => {
                     </Nav>
                 </div>
             </Navbar>
-            <div className="container mt-4">
-                
-            </div>
-      </div>
+        </div>
     );
 };
 
