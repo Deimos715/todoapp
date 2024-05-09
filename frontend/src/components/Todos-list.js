@@ -1,3 +1,4 @@
+//Todos-list
 import React, { useState, useEffect } from "react";
 import TodoDataService from "../services/todos";
 import { Link } from "react-router-dom";
@@ -24,6 +25,16 @@ const TodosList = props => {
         });
     }
 
+    const deleteTodo = (todoId) =>{
+        TodoDataService.deleteTodo(todoId, props.token)
+        .then(response => {
+            retrieveTodos();
+        })	
+        .catch(e =>{
+            console.log(e);
+        });
+    }
+
     return (
         <Container>
         {props.token == null || props.token === "" ? (
@@ -32,29 +43,34 @@ const TodosList = props => {
             </Alert>
         ) : (
             <div>
-            {todos.map((todo) => {
-                return (
-                <Card key={todo.id} className="mb-3">
-                    <Card.Body>
-                        <div>
-                            <Card.Title>{todo.title}</Card.Title>
-                            <Card.Text><b>Задание:</b> {todo.memo}</Card.Text>
-                            <Card.Text>
-                                Дата добавления: {moment(todo.created).format("Do MMMM YYYY")}
-                            </Card.Text>
-                        </div>
-                        <Link to={{pathname: "/todos/" + todo.id, state: {currentTodo: todo}}}>
-                            <Button variant="outline-info" className="me-2">
-                                Редактировать
+                <Link to={"/todos/create"}>
+                    <Button variant="outline-info" className="mb-3">
+                        Добавить задание
+                    </Button>
+                </Link>
+                {todos.map((todo) => {
+                    return (
+                    <Card key={todo.id} className="mb-3">
+                        <Card.Body>
+                            <div>
+                                <Card.Title>{todo.title}</Card.Title>
+                                <Card.Text><b>Задание:</b> {todo.memo}</Card.Text>
+                                <Card.Text>
+                                    Дата добавления: {moment(todo.created).format("Do MMMM YYYY")}
+                                </Card.Text>
+                            </div>
+                            <Link to={{pathname: "/todos/" + todo.id, state: {currentTodo: todo}}}>
+                                <Button variant="outline-info" className="me-2">
+                                    Редактировать
+                                </Button>
+                            </Link>
+                            <Button variant="outline-danger" onClick={() => deleteTodo(todo.id)}>
+                                Delete
                             </Button>
-                        </Link>
-                        <Button variant="outline-danger">
-                            Удалить
-                        </Button>
-                    </Card.Body>
-                </Card>
-                )
-            })}
+                        </Card.Body>
+                    </Card>
+                    )
+                })}
             </div>
         )}
         </Container>
