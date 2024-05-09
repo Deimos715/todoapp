@@ -3,7 +3,7 @@ import React from 'react';
 const TodosList = () => {
     return (
         <div className="#">
-            Todos List
+            Список задач
         </div>
     );
 };
