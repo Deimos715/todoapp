@@ -35,6 +35,17 @@ const TodosList = props => {
         });
     }
 
+    const completeTodo = (todoId) => {
+        TodoDataService.completeTodo(todoId, props.token)
+        .then(response => {
+            retrieveTodos();
+            console.log("completeTodo", todoId);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
     return (
         <Container>
         {props.token == null || props.token === "" ? (
@@ -52,20 +63,25 @@ const TodosList = props => {
                     return (
                     <Card key={todo.id} className="mb-3">
                         <Card.Body>
-                            <div>
+                            <div className={`${todo.completed ? "text-decoration-line-through" : ""}`}>
                                 <Card.Title>{todo.title}</Card.Title>
                                 <Card.Text><b>Задание:</b> {todo.memo}</Card.Text>
                                 <Card.Text>
                                     Дата добавления: {moment(todo.created).format("Do MMMM YYYY")}
                                 </Card.Text>
                             </div>
-                            <Link to={{pathname: "/todos/" + todo.id, state: {currentTodo: todo}}}>
-                                <Button variant="outline-info" className="me-2">
-                                    Редактировать
-                                </Button>
-                            </Link>
-                            <Button variant="outline-danger" onClick={() => deleteTodo(todo.id)}>
-                                Delete
+                            {todo.completed ? null : (
+                                <Link to={{pathname: "/todos/" + todo.id, state: {currentTodo: todo}}}>
+                                    <Button variant="outline-info" className="me-2">
+                                        Редактировать
+                                    </Button>
+                                </Link>
+                            )}
+                            <Button variant="outline-danger" onClick={() => deleteTodo(todo.id)} className="me-2">
+                                Удалить
+                            </Button>
+                            <Button variant="outline-success" onClick={() => completeTodo(todo.id)}>
+                                Завершить
                             </Button>
                         </Card.Body>
                     </Card>
